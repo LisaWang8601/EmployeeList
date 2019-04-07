@@ -1,0 +1,85 @@
+﻿@model IEnumerable<EmployeeList.Models.Employee>
+
+@using Microsoft.AspNetCore.Http
+
+@{
+    ViewData["Title"] = "Employee List";
+}
+
+<h2>Employee List</h2>
+
+<form>
+    <button asp-action="Create">Add New Employee</button>
+    <button name="ListType" value="AllEmployees" asp-action="Index">List All Employees</button>
+    <button name="ListType" value="ActiveEmployees" asp-action="Index">List Active Employees</button>
+    <button name="ListType" value="TerminatedEmployees" asp-action="Index">List Terminated Employees</button>
+    <!--<a asp-action="Create" id="AddEmployee" class="btn btn-primary">Add New Employee</a>
+    <a asp-action="ActiveEmployee" id="ActiveEmployees" class="btn btn-primary">Active Employees</a>
+    <a asp-action="EmployeesTerminated" id="EmployeesTerminated" class="btn btn-primary">Employees Terminated in Last Month</a>
+    <a asp-action="ListActiveEmployees" class="btn btn-primary">Active Employees</a>
+        <a asp-action="ListTerminatedEmployees" class="btn btn-primary">Employees Terminated in Last Month</a> -->
+</form>
+<div>
+    @TempData["buttonValue"]
+</div>
+
+<table class="table">
+    <thead>
+        <tr>
+            <!--changed table column names to more user friendly field names-->
+            <th>
+                Department ID
+            </th>
+            <th>
+                Name
+            </th>
+            <th>
+                Position
+            </th>
+            <th>
+                Hire Date
+            </th>
+            <th>
+                Termination Date
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DeptId)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.EmpName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Position)
+                </td>
+                <td>
+                        @item.HireDate.ToString("MM/dd/yyyy")
+                </td>
+                <!--Decide here to show "N/A" for active employee, or if it is a terminated Employee, show the termination date-->
+                @if (@item.TerminationDate == ViewBag.NULLDATE)
+                {
+                    <td>
+                        N/A
+                    </td>
+                }
+                else
+                {
+                    <td>
+                       @item.TerminationDate.Value.ToString("MM/dd/yyyy")
+                    </td>
+                }
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.EmpId">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.EmpId">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.EmpId">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
