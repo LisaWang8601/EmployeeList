@@ -1,5 +1,6 @@
 # EmployeeList
 An exercise of listing employees by types of active or terminated.
+
 To build it:
 1. Run the SQL script employee.sql to create a SQL database with one table Employee. 
 2. Build a project using asp.net core MVC.  
